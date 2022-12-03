@@ -10,18 +10,13 @@ var callback = function(response) {
   });
 
   response.on('end', function () {
-    var mostCals = 0, indexOfMostCals = 0;
-    str.split("\n\n").forEach(function (element, i, arr){
-      console.log("elf ", i, "has ", element, " cals");
-        var sum = element.split("\n").map(function(n) { return new Number(n);}).reduce(function (prev, curr, i, arr) {
-            return prev + curr;
-        });
-        if(sum > mostCals) {
-            mostCals = sum;
-            indexOfMostCals = i;
-        }
-    });
-    console.log("Most cals is ", mostCals, " at elf ", indexOfMostCals+1)
+    var most = str.split("\n\n").reduce(function (mostCals, element, i, arr){
+        var sum = element.split("\n").reduce(function (prev, curr, i, arr) {
+            return prev + new Number(curr);
+        }, 0);
+        return sum > mostCals ? sum : mostCals
+    }, 0);
+    console.log("Most cals is ", most)
   });
 }
 
