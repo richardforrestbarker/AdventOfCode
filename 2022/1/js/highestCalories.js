@@ -1,25 +1,13 @@
-var options = {
+const toHighestSum = ( highest, itemCals) => {
+  const sumOfElfCals = itemCals.split("\n").reduce((sum, next) => sum + new Number(next), 0);
+  return sumOfElfCals > highest ? sumOfElfCals : highest;
+}
+require('https').request({
   host: 'adventofcode.com',
   path: '/2022/day/1/input',
   headers: { 'Cookie': ""}
-};
-var callback = function(response) {
-  var str = "";
-  response.on('data', function (chunk) {
-    str += chunk;
-  });
-
-  response.on('end', function () {
-    var most = str.split("\n\n").reduce(function (mostCals, element, i, arr){
-        var sum = element.split("\n").reduce(function (prev, curr, i, arr) {
-            return prev + new Number(curr);
-        }, 0);
-        return sum > mostCals ? sum : mostCals
-    }, 0);
-    console.log("Most cals is ", most)
-  });
-}
-
-
-var http = require('https');
-http.request(options, callback).end();
+}, (response) => {
+  let str = "";
+  response.on('data', chunk => str += chunk);
+  response.on('end', () => (str) => console.log("Most cals is ", str.split("\n\n").reduce(toHighestSum, 0)));
+}).end();
